@@ -1,7 +1,7 @@
 #!/bin/bash
 
-baseDir="/opt/bounty"
-logFile="/var/log/recon_script.log"
+baseDir="/home/hashmap/bounty"
+logFile="/home/hashmap/bounty/recon_script.log"
 
 
 if [[ -d "$baseDir" ]]; then
