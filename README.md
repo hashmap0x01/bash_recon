@@ -10,7 +10,6 @@ Ensure the following tools are installed and available in your system:
 - [dnsx](https://github.com/projectdiscovery/dnsx)
 - [httpx](https://github.com/projectdiscovery/httpx)
 - [anew](https://github.com/tomnomnom/anew)
-- [notify](https://github.com/projectdiscovery/notify)
 - [smap](https://github.com/akamai/smap)
 
 Install these tools before running the script.
