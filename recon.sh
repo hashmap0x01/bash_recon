@@ -12,6 +12,19 @@ print_verbose() {
     fi
 }
 
+# Function to execute a command with verbose logging
+execute_command() {
+    print_verbose "Executing: $1"
+    eval "$1"
+    local exit_code=$?
+    if [ $exit_code -eq 0 ]; then
+        print_verbose "Command succeeded: $1"
+    else
+        print_verbose "Command failed: $1"
+    fi
+    return $exit_code
+}
+
 # Parse command-line options
 while getopts ":v" opt; do
   case $opt in
@@ -34,9 +47,9 @@ if [[ -d "$baseDir" ]]; then
             
             # Perform reconnaissance tasks with error handling and logging
             {
-                subfinder -dL "${programDir}/roots.txt" -silent | dnsx -silent | anew -q "${programDir}/resolveddomains.txt"
-                httpx -l "${programDir}/resolveddomains.txt" -t 75 -silent | anew "${programDir}/webservers.txt" | notify -silent -bulk
-                smap -iL "${programDir}/resolveddomains.txt" | anew "${programDir}/openports.txt"
+                execute_command "subfinder -dL '${programDir}/roots.txt' -silent | dnsx -silent | anew -q '${programDir}/resolveddomains.txt'"
+                execute_command "httpx -l '${programDir}/resolveddomains.txt' -t 75 -silent | anew '${programDir}/webservers.txt' | notify -silent -bulk"
+                execute_command "smap -iL '${programDir}/resolveddomains.txt' | anew '${programDir}/openports.txt'"
             } >> "$logFile" 2>&1 || echo "Error during reconnaissance for $programName!" >> "$logFile"
 
         else
@@ -48,4 +61,3 @@ if [[ -d "$baseDir" ]]; then
 else
     echo "Directory '$baseDir' does not exist."
 fi
-
